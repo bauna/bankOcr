@@ -5,6 +5,7 @@ import static org.junit.Assert.assertEquals;
 
 import org.junit.Test;
 
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.util.LinkedList;
 import java.util.Queue;
@@ -41,6 +42,16 @@ public class OcrParserTest {
 
         parser.parse(OcrParser.class.getResourceAsStream("testParsingWellDefinedAccounts.txt"));
         assertEquals(0, vals.size());
+    }
+
+    @Test
+    public void testParsingAccountsWithErros() throws IOException {
+        ByteArrayOutputStream out = new ByteArrayOutputStream();
+        new OcrParser(new ValidatorPersistor(out)).parse(
+                OcrParser.class.getResourceAsStream("testParsingAccountsWithErrors.txt"));
+        out.flush();
+
+        assertEquals("457508000\n664371495 ERR\n86110??36 ILL\n", out.toString());
     }
 
 }
