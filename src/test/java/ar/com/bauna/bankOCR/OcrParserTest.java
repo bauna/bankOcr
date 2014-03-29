@@ -21,7 +21,7 @@ public class OcrParserTest {
     }
 
     @Test
-    public void test() throws IOException {
+    public void testParsingWellDefinedAccounts() throws IOException {
         final Queue<String> vals = new LinkedList<String>(
                 asList("123456789", "000000000",
                        "111111111", "222222222",
@@ -39,7 +39,7 @@ public class OcrParserTest {
             }
         });
 
-        parser.parse(OcrParser.class.getResourceAsStream("test.txt"));
+        parser.parse(OcrParser.class.getResourceAsStream("testParsingWellDefinedAccounts.txt"));
         assertEquals(0, vals.size());
     }
 
