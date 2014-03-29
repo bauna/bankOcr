@@ -23,7 +23,11 @@ public class OcrParser {
         List<String> item;
         while ((item = readItem(reader)) != null) {
             int[] accountNumber = parseAccountNumber(item);
-            handler.onAccount(accountNumber);
+            try {
+                handler.onAccount(accountNumber);
+            } catch (Exception e) {
+                throw new RuntimeException("Error handling account number at line: " + reader.getLineNumber(), e);
+            }
         }
     }
 
