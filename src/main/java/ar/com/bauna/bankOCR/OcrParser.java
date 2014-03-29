@@ -49,16 +49,26 @@ public class OcrParser {
     private List<String> readItem(LineNumberReader reader) throws IOException {
         List<String> item = new ArrayList<String>(3);
         String line;
-        if ((line = reader.readLine()) != null && line.length() == 27) {
-            item.add(line);
+        if ((line = reader.readLine()) != null) {
+            if (line.length() == 27) {
+                item.add(line);
+            } else {
+                throw new RuntimeException("Wrong line format: " + reader.getLineNumber());
+            }
+        } else {
+            return null;
         }
         if ((line = reader.readLine()) != null && line.length() == 27) {
             item.add(line);
+        } else {
+            throw new RuntimeException("Wrong line format: " + reader.getLineNumber());
         }
         if ((line = reader.readLine()) != null && line.length() == 27) {
             item.add(line);
+        } else {
+            throw new RuntimeException("Wrong line format: " + reader.getLineNumber());
         }
         reader.readLine();
-        return item.size() == 3 ? item : null;
+        return item;
     }
 }
