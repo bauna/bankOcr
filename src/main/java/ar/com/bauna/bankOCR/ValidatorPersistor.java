@@ -51,7 +51,7 @@ public class ValidatorPersistor implements OcrParserEventHandler {
     private byte[] listToString(List<AccountNumber> fixes) throws UnsupportedEncodingException {
     	StringBuilder s = new StringBuilder();
     	for (AccountNumber accountNumber : fixes) {
-			s.append(", ").append(accountNumber.asString());
+			s.append(", '").append(accountNumber.asString()).append("'");
 		}
 		return s.substring(2).getBytes("UTF-8");
 	}
