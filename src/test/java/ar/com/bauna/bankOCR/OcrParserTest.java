@@ -63,7 +63,8 @@ public class OcrParserTest {
                 OcrParser.class.getResourceAsStream("testParsingAccountsWithErrors.txt"));
         out.flush();
 
-        assertEquals("457508000\n664371485\n86110??36 ILL\n", out.toString());
+        assertEquals("457508000\n664371485\n86110??36 ILL\n"
+        		+ "888888888 AMB ['888886888', '888888988', '888888880']\n", out.toString());
     }
 
 }
