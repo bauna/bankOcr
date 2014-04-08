@@ -53,7 +53,7 @@ public class Digit {
             new Character[]{'|', '_', '|'},
             new Character[]{' ', '_', '|'}});
 
-    private static Map<Digit, Integer> toInt = new HashMap<Digit, Integer>() {
+    private static final Map<Digit, Integer> toInt = new HashMap<Digit, Integer>() {
         {
             put(ZERO, 0);
             put(ONE, 1);
@@ -70,11 +70,19 @@ public class Digit {
     
     private final ArrayList<ArrayList<Character>> segments;
 
-    private Digit(Character[][] segments) {
+    public Digit(Character[][] segments) {
         this.segments = new ArrayList<>(3);
         for (Character[] cs : segments) {
             this.segments.add(new ArrayList<Character>(Arrays.asList(cs)));
         }
+    }
+    
+    private Digit(ArrayList<ArrayList<Character>> segments) {
+    	this.segments = segments;
+    }
+    
+    public boolean isValid() {
+    	return toInt.get(this) != null;
     }
 
     public static int toInt(Digit number) {
@@ -95,6 +103,22 @@ public class Digit {
         return segments.hashCode();
     }
 
+    public char charAt(int row, int col) {
+    	return segments.get(row).get(col);
+    }
+    
+    public Digit changeCharAt(int row, int col, char character) {
+    	ArrayList<ArrayList<Character>> newSegments = new ArrayList<ArrayList<Character>>(3);
+    	for (int i = 0; i < segments.size(); i++) {
+    		ArrayList<Character> rowArray = new ArrayList<>(segments.get(i));
+    		if (i == row) {
+    			rowArray.set(col, character);
+    		}
+			newSegments.add(rowArray);
+		}
+    	return new Digit(newSegments);
+    }
+    
     @Override
     public boolean equals(Object obj) {
         if (this == obj)
@@ -110,5 +134,10 @@ public class Digit {
         } else if (!segments.equals(other.segments))
             return false;
         return true;
+    }
+    
+    @Override
+    public String toString() {
+    	return String.valueOf(toInt());
     }
 }
