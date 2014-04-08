@@ -4,8 +4,10 @@ import static ar.com.bauna.bankOCR.AccountNumber.Validation.OK;
 
 import java.io.*;
 import java.util.ArrayList;
+import java.util.LinkedHashSet;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Set;
 
 import ar.com.bauna.bankOCR.AccountNumber.Validation;
 
@@ -34,7 +36,7 @@ public class OcrParser {
 				if (valid == OK) {
             		handler.onAccount(acctNumber);
             	} else {
-            		List<AccountNumber> fixes = new LinkedList<>();
+            		Set<AccountNumber> fixes = new LinkedHashSet<>();
             		fixDigits(accountNumber, fixes);
             		handler.onAccountError(acctNumber, fixes, valid);
             	}
@@ -44,7 +46,7 @@ public class OcrParser {
         }
     }
 
-    private void fixDigits(Digit[] accountNumber, List<AccountNumber> validAccounts) {
+    private void fixDigits(Digit[] accountNumber, Set<AccountNumber> validAccounts) {
     	
     	char[] options = new char[] {' ', '|', '_'};
     	for (int i = 0; i < accountNumber.length; i++) {
@@ -53,7 +55,7 @@ public class OcrParser {
     			for (int col = 0; col < 3; col++) {
     				for (int opts = 0; opts < options.length; opts++) {
     					Digit newDigit = digit.changeCharAt(row, col, options[opts]);
-    					if (digit.isValid()) {
+    					if (newDigit.isValid()) {
     						accountNumber[i] = newDigit;
 	    					AccountNumber newAccount = new AccountNumber(accountNumber);
 	    					if (newAccount.isValid() == OK) {

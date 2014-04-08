@@ -4,6 +4,8 @@ import static ar.com.bauna.bankOCR.AccountNumber.Validation.ERR;
 import static ar.com.bauna.bankOCR.AccountNumber.Validation.ILL;
 import static ar.com.bauna.bankOCR.AccountNumber.Validation.OK;
 
+import java.util.Arrays;
+
 public class AccountNumber {
 	public enum Validation {OK, ERR, ILL}
 	
@@ -40,4 +42,28 @@ public class AccountNumber {
 	public String toString() {
 		return asString();
 	}
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + Arrays.hashCode(account);
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		AccountNumber other = (AccountNumber) obj;
+		if (!Arrays.equals(account, other.account))
+			return false;
+		return true;
+	}
+	
+	
 }

@@ -3,26 +3,18 @@ package ar.com.bauna.bankOCR;
 import static java.util.Arrays.asList;
 import static org.junit.Assert.assertEquals;
 
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.util.LinkedList;
+import java.util.Queue;
+import java.util.Set;
+
 import org.junit.Test;
 
 import ar.com.bauna.bankOCR.AccountNumber.Validation;
 
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Queue;
-
 
 public class OcrParserTest {
-
-    private String asString(int[] accountNumber) {
-        String s = "";
-        for (int digit : accountNumber) {
-            s += digit;
-        }
-        return s;
-    }
 
     @Test
     public void testParsingWellDefinedAccounts() throws IOException {
@@ -44,7 +36,7 @@ public class OcrParserTest {
             
             @Override
             public void onAccountError(AccountNumber readAccount,
-            		List<AccountNumber> fixes, Validation validation)
+            		Set<AccountNumber> fixes, Validation validation)
             		throws Exception {
             	String accountNum = readAccount.asString();
                 String poll = vals.poll();
@@ -64,7 +56,8 @@ public class OcrParserTest {
         out.flush();
 
         assertEquals("457508000\n664371485\n86110??36 ILL\n"
-        		+ "888888888 AMB ['888886888', '888888988', '888888880']\n", out.toString());
+        		+ "888888888 AMB ['888886888', '888888988', '888888880']\n"
+        		+ "?23456789 AMB ['423456709', '123456789']\n", out.toString());
     }
 
 }

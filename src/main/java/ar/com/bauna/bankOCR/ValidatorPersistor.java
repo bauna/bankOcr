@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.io.UnsupportedEncodingException;
 import java.util.List;
+import java.util.Set;
 
 import ar.com.bauna.bankOCR.AccountNumber.Validation;
 
@@ -23,7 +24,7 @@ public class ValidatorPersistor implements OcrParserEventHandler {
     
     @Override
     public void onAccountError(AccountNumber readAccount,
-    		List<AccountNumber> fixes, Validation validation) throws Exception {
+    		Set<AccountNumber> fixes, Validation validation) throws Exception {
     	switch (fixes.size()) {
 		case 0:
 			out.write(readAccount.asString().getBytes("UTF-8"));
@@ -31,7 +32,7 @@ public class ValidatorPersistor implements OcrParserEventHandler {
 			out.write(validation.name().getBytes("UTF-8"));
 			break;
 		case 1:
-			out.write(fixes.get(0).asString().getBytes("UTF-8"));
+			out.write(fixes.iterator().next().asString().getBytes("UTF-8"));
 			break;
 		default:
 			out.write(readAccount.asString().getBytes("UTF-8"));
@@ -48,7 +49,7 @@ public class ValidatorPersistor implements OcrParserEventHandler {
     	out.write('\n');
     }
     
-    private byte[] listToString(List<AccountNumber> fixes) throws UnsupportedEncodingException {
+    private byte[] listToString(Set<AccountNumber> fixes) throws UnsupportedEncodingException {
     	StringBuilder s = new StringBuilder();
     	for (AccountNumber accountNumber : fixes) {
 			s.append(", '").append(accountNumber.asString()).append("'");
