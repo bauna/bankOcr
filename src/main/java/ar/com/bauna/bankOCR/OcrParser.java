@@ -61,11 +61,6 @@ public class OcrParser {
 	    					if (newAccount.isValid() == OK) {
 	    						validAccounts.add(newAccount);
 	    					}
-	    					//when original original digit is invalid we need to recurse
-	    					//in order to validate other existing illegal numbers 
-	    					if (!digit.isValid()) { 
-	    						fixDigits(accountNumber, validAccounts);
-	    					}
     					}
     				}
     			}
